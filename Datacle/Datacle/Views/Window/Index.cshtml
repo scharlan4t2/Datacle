@@ -1,0 +1,15 @@
+﻿
+<div data-ng-controller="UserController" >
+    <div class="col-xs-12" >
+        @{
+            ViewData["Type"] = "NewUser";
+            @Html.Partial("UserWindow")
+        }
+       <div data-ng-repeat="user in getList(dtUser)">
+        @{
+            ViewData["Type"] = "UserMenu";
+            @Html.Partial("UserWindow")
+        }
+        </div>
+    </div>
+</div>

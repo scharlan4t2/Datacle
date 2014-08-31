@@ -1,0 +1,111 @@
+﻿@{  
+if (ViewData["Type"].ToString() == "AddListItem")
+{
+    @* new list item entry*@
+    <div class="panel-info bg-success modal-sm row" 
+        data-ng-show="dtListItem.showNew(list.id)">
+        <label class="badge" >Add Item</label>
+        <input type="text" class="col-xs-12" 
+            data-ng-keypress="dtListItem.keyNew(list.id,$event)"
+            data-ng-model="dtListItem.newitem[list.id].title"/> 
+        <input class="col-xs-12" type="text" title="Description" 
+            data-ng-model="dtListItem.newitem[list.id].attrib.attrib.desc"/>
+        <input class="ng-hide" type="text" title="Attribute"  
+            data-ng-model="dtListItem.newitem[list.id].attrib.attrib"/>
+        <div class="col-xs-12 text-right">
+            <div class="btn btn-sm btn-default"
+                data-ng-click="dtListItem.saveNew(list.id)">Add</div>
+            <div class="btn btn-sm btn-warning"
+                data-ng-click="dtListItem.hideNew(list.id)">Close</div>
+        </div>
+
+    </div>
+}
+if (ViewData["Type"].ToString() == "EditListItem")
+{
+    @* new list item entry*@
+    <div class="panel-info bg-success modal-sm row" 
+        data-ng-show="dtListItem.showEdit(list.id)">
+        <label class="badge" >Edit</label>
+        <input type="text" class="col-xs-12" 
+            data-ng-keypress="dtListItem.keyEdit(list.id,$event)"
+            data-ng-model="dtListItem.edititem[list.id].title"/> 
+        <input class="col-xs-12" type="text" title="Description"
+            data-ng-model="dtListItem.edititem[list.id].attrib.attrib.desc"/>
+        <input class="ng-hide" type="text" title="Attribute" 
+            data-ng-model="dtListItem.edititem[list.id].attrib.attrib"/>
+        <div class="col-xs-12 text-right">
+            <div class="col-xs-4 btn-sm btn-default"
+                data-ng-click="dtListItem.saveEdit(list.id)">Save</div>
+            <div class="col-xs-4 btn-sm btn-warning"
+                data-ng-click="dtListItem.hideEdit(list.id,'')">Close</div>
+            <div class="col-xs-4 btn-sm btn-danger"
+                data-ng-click="dtListItem.delEdit(list.id)">Delete</div>
+        </div>
+    </div>
+}
+if (ViewData["Type"].ToString() == "ListTitle")
+{
+    <div class="bg-success row" 
+        data-ng-mouseleave="dtList.setMouse(list.id,false)"
+        data-ng-click="dtListItem.setObj(list.id)"
+        data-ng-mouseenter="dtList.setMouse(list.id,true)">                
+        <div class="btn btn-success">
+            <div class="holder" data-ng-show="dtList.showMouse(list.id)">
+                <label class="badge"
+                       data-ng-click="dtListItem.setNew(list.id)">
+                    <span class="glyphicon glyphicon-plus"></span>Add
+                </label>
+                <label class="badge"
+                       data-ng-click="dtList.setEdit(list)">
+                    <span class="glyphicon glyphicon-pencil"></span>Edit
+                </label>
+            </div>
+            {{list.title}}
+        </div>
+    </div>
+}
+if (ViewData["Type"].ToString() == "ListItems")
+{
+    @* show list items*@
+    <div>
+        <div class="sortListItem" data-listid="{{list.id}}">
+            <div id="{{item.sort}}"
+                 data-ng.model="item.sort"
+                 data-ng-repeat="item in dtListItem.getList(list.id) | orderBy:sortListItem()"
+                 data-ng-mouseleave="dtListItem.setMouse(item.id,false)"
+                 class="row">
+                @{
+    ViewData["Type"] = "ListItem";
+        @Html.Partial("ListItemWindow");
+                                       ViewData["Type"] = "";
+                }
+            </div>
+
+
+
+        </div>
+    </div>
+}
+if (ViewData["Type"].ToString() == "ListItem")
+{
+    @* show list item*@
+    <div class="btn {{item.isselect?'btn-info panel-info':'btn-success panel-default'}}"
+         title="{{item.attrib.attrib.desc}}"
+         data-ng-click="dtListItem.setObj(item)"
+         data-ng-mouseenter="dtListItem.setMouse(item.id,true)">
+        <div class="holder" data-ng-show="dtListItem.showMouse(item.id)">
+            <label class="badge bg-info" >{{item.sort}}</label>
+            <label class="badge"
+                   data-ng-click="dtListItem.setEdit(item, list.id)">Edit</label>
+        </div>
+        <input type="hidden" value="{{item.id}}" data-ng-model="item.id"
+               data-sort="{{item.sort}}" />
+        <input type="hidden" value="{{item.listid}}" data-ng-model="item.listid" />
+        <div class="text-left col-xs-{{list.attrib.attrib.widthtitle}}">{{item.title}}</div>
+        <div class="text-left col-xs-{{list.attrib.attrib.widthdesc}}"
+                data-ng-show="dtList.showDesc(list)">{{item.attrib.attrib.desc}}</div>
+        </div>
+}
+
+}

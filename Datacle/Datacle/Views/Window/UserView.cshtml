@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = ViewData["View"];
+    var viewid = ViewData["ID"];
+    Layout = "~/Views/Shared/_LayoutView.cshtml";
+}
+@*UserView*@
+<div data-ng-controller="ViewController">
+    <div data-ng-repeat="view in views">
+        <div class="row" data-ng-show="view.id=='@viewid'">
+        @{ 
+            ViewData["Type"] = "View";
+            @Html.Partial("ViewWindow");
+        }
+        </div>
+    </div> 
+</div>

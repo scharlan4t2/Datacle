@@ -1,0 +1,131 @@
+﻿@{  
+
+if (ViewData["Type"].ToString() == "AddViewItem")
+{
+    @* new view item entry*@
+    <div class="panel-info bg-success modal-sm row" 
+        data-ng-show="dtViewItem.showNew(view.id)">
+        <label class="col-xs-1 badge" >Add Item</label>
+        <input class="col-xs-12" type="text" 
+            data-ng-keypress="keynewviewitem(view.id,$event)"
+            data-ng-model="dtViewItem.newitem[view.id].title"/> 
+        <input class="col-xs-12" type="text" title="Description" 
+            data-ng-model="dtViewItem.newitem[view.id].attrib.attrib.desc"/>
+        <input class="ng-hide" type="text" title="Attribute" 
+            data-ng-model="dtViewItem.newitem[view.id].attrib.attrib"/>
+       <div class="col-xs-12 text-right">
+            <div class="col-xs-4 btn-sm btn-default"
+                data-ng-click="dtViewItem.saveNew(view.id)">Add</div>
+            <div class="col-xs-4 btn-sm btn-warning"
+                data-ng-click="dtViewItem.hideNew(view.id)">Close</div>
+        </div>
+
+    </div>
+}
+if (ViewData["Type"].ToString() == "EditViewItem")
+{
+    @* new view item entry*@
+    <div class="panel-info bg-success modal-sm row" 
+        data-ng-show="dtViewItem.showEdit(view.id)">
+        <label class="col-xs-1 badge" >Edit</label>
+        <input class="col-xs-12" type="text" 
+            data-ng-keypress="dtViewItem.keyEdit(view.id,$event)"
+            data-ng-model="dtViewItem.edititem[view.id].title"/> 
+        <input class="col-xs-12" type="text" title="Description"
+            data-ng-model="dtViewItem.edititem[view.id].attrib.attrib.desc"/>
+        <input class="ng-hide" type="text" title="Attribute" 
+            data-ng-model="dtViewItem.edititem[view.id].attrib.attrib"/>
+        <div class="col-xs-12 text-right">
+            <div class="col-xs-4 btn-sm  btn-default"
+                data-ng-click="saveviewitem(dtViewItem.edititem[view.id])">Save</div>
+            <div class="col-xs-4 btn-sm btn-warning"
+                data-ng-click="setPanelVisible(view.id,'')">Close</div>
+            <div class="col-xs-4 btn-sm btn-danger"
+                data-ng-click="deleteviewitem(dtViewItem.edititem[view.id])">Delete</div>
+        </div>
+    </div>
+}
+
+if (ViewData["Type"].ToString() == "ViewTitle")
+{
+    <div class="btn btn-success col-xs-12"
+        data-ng-mouseleave="dtView.setMouse(view.id,false)"
+        data-ng-click="dtViewItem.setObj(view.id)"
+        data-ng-mouseenter="dtView.setMouse(view.id,true)">                
+            <div class="holder" data-ng-show="dtView.showMouse(view.id)">
+                <label class="badge"
+                       data-ng-click="dtViewItem.setNew(view.id)">Add</label>
+                <label class="badge"
+                       data-ng-click="dtView.setEdit(view)">Edit</label>
+                <label class="badge"
+                       data-ng-click="dtView.setEdit(view)">List</label>
+            </div>
+            {{view.title}}
+    </div>
+}
+
+if (ViewData["Type"].ToString() == "ViewItems")
+{
+    @* show view items*@
+    ViewData["Type"] = "ViewList";
+    @Html.Partial("ViewItemWindow");
+
+    <div>
+        <div class="sortViewItem" data-viewid="{{view.id}}">
+        <div data-ng-repeat="item in dtViewItem.list[view.id] | orderBy:'sort'"
+            class="row" > 
+            @{
+                ViewData["Type"] = "ViewItem";
+                @Html.Partial("ViewItemWindow");
+                ViewData["Type"] = "";
+            }
+        </div>
+        </div>
+    </div>
+}
+if (ViewData["Type"].ToString() == "ViewItem")
+{
+    @* show view item*@
+    <div class="btn btn-info col-xs-12" title="{{item.attrib.attrib.desc}}">
+        <input type="hidden" value="{{item.id}}" data-ng-model="item.id" 
+            data-sort="{{item.sort}}" />
+        <input type="hidden" value="{{item.viewid}}" data-ng-model="item.viewid" />
+        <div data-ng-click="dtViewItem.setEdit(item,view.id)">{{item.title}}</div>
+    </div>
+}
+if (ViewData["Type"].ToString() == "ViewList")
+{
+    @* show view item*@
+    <div data-ng-repeat="list in dtViewList.getList() | orderBy:'sort'"
+         class="btn btn-success col-xs-2"
+         data-ng-show="dtViewList.showObj(list)">
+        @{
+        <div title="{{list.attrib.attrib.desc}}">
+            <input type="hidden" value="{{list.id}}" data-ng-model="list.id"
+                data-sort="{{list.sort}}" />
+            <div data-ng-click="setViewListItemObj(list)"
+                 class="btn-info text-right">{{list.title}}</div>        
+        </div>
+        }
+    </div>
+}
+
+if (ViewData["Type"].ToString() == "List")
+{
+    @* show view item*@
+    <div data-ng-repeat="list in dtList.getList() | orderBy:'sort'"
+         class="btn btn-success col-xs-2"
+         data-ng-show="dtList.showObj(list) && dtListItem.showObj(list)">
+        @{
+            <div title="{{list.attrib.attrib.desc}}">
+                <input type="hidden" value="{{list.id}}" data-ng-model="list.id"
+                    data-sort="{{list.sort}}" />
+                <div data-ng-click="dtViewList.setObj(list)"
+                     class="btn-info text-right">{{list.title}}</div>        
+            </div>
+        }
+    </div>
+}
+
+
+}

@@ -11,7 +11,7 @@ using WebMatrix.WebData;
 using Datacle.Filters;
 using Datacle.Models;
 
-namespace Datacle.Controllers
+namespace MvcApplication41.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]
@@ -37,7 +37,8 @@ namespace Datacle.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                return RedirectToLocal(returnUrl);
+                HttpContext.Session["Login"] = model.UserName;
+                return Redirect("\\View\\" + model.UserName);
             }
 
             // If we got this far, something failed, redisplay form
@@ -54,7 +55,7 @@ namespace Datacle.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return Redirect("\\");
         }
 
         //
@@ -81,7 +82,7 @@ namespace Datacle.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("View", model.UserName);
                 }
                 catch (MembershipCreateUserException e)
                 {

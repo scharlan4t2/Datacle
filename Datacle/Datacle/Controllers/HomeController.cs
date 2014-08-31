@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Datacle.BusLogic;
 
 namespace Datacle.Controllers
 {
@@ -10,23 +11,10 @@ namespace Datacle.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            if( Request.IsAuthenticated){
+                return RedirectToAction("Index", "View");
+            }
+            return View("Index");
         }
     }
 }

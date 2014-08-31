@@ -1,0 +1,72 @@
+﻿@{  
+    if (ViewData["Type"].ToString() == "AddUserMenu")
+    {
+           @* new list type entry*@
+            <div data-ng-click="dtShare.setNew()"  
+                class="btn-sm btn-info col-xs-1">Add User</div>
+    }
+    if (ViewData["Type"].ToString() == "AddUser")
+    {
+        <div class="panel-info bg-success modal-sm row" 
+            data-ng-show="dtShare.showNew()">
+            <label class="badge" >Add User</label>
+            <input class="col-xs-12" type="text" 
+                data-ng-model="dtShare.newshare.name" />
+            <div class="col-xs-12 text-right">
+                <div class="col-xs-4 btn-sm btn-info"
+                    data-ng-click="dtShare.saveNew()">Add
+                </div>
+                <div class="col-xs-4 btn-sm btn-warning"
+                    data-ng-click="dtShare.hideNew()">Close
+                </div>
+            </div>
+        </div>
+    }    
+    if( ViewData["Type"].ToString() == "User" )
+    {
+         @* User*@    
+        <div class="panel col-xs-2">
+            <div class="btn-default col-xs-12"
+                data-ng-click="dtShare.setType(share.type)">{{share.type}}</div>
+            <div class="btn-info col-xs-12"
+                data-ng-click="dtShare.setObj(share)">{{share.title}}</div>
+        </div>
+    }
+    if( ViewData["Type"].ToString() == "ShareList" )
+    {
+         @* ShareList*@    
+        <div class="col-xs-12" data-ng-show="dtShare.showObj(share)">
+        <div class="panel col-xs-2">
+            <div class="btn-default col-xs-12"
+                data-ng-click="dtShare.setShared(share.id)">{{share.type}}</div>
+            <div class="btn-info col-xs-12"
+                data-ng-click="dtShare.setShared(share.id)">{{share.title}}</div>
+        </div>
+
+        <div class="col-xs-10">
+            <div class="panel col-xs-3" data-ng-repeat="list in dtShareList.getList(share.id)">
+                <div class="{{classSelect(list)}} col-xs-12"
+                    data-ng-click="dtShareList.setType(list.type)">{{list.type}}</div>
+                <div class="{{classSelect(list)}} col-xs-12"
+                    data-ng-click="dtShareList.setObj(list.id, share.id)">{{list.title}}</div>
+            </div>
+        </div>
+        </div>
+    }
+    if (ViewData["Type"].ToString() == "SharedList")
+    {
+        <div class="col-xs-12" data-ng-show="dtShare.showShared(share.id)">
+        <div class="panel-info col-xs-2">
+            <div class="btn-default col-xs-12"
+                data-ng-click="dtShareList.setAny(share.id)">Share</div>
+            <div class="btn-info col-xs-12"
+                data-ng-click="dtShareList.setAll(share.id)">All</div></div>
+            <div class="panel col-xs-2" data-ng-repeat="list in dtSharedList.getList(share.id)">
+                <div class="{{classSelect(list)}} col-xs-12"
+                    data-ng-click="dtSharedList.setType(list,share.id)">{{list.type}}</div>
+                <div class="{{classSelect(list)}} col-xs-12"
+                    data-ng-click="dtSharedList.setObj(list,share.id)">{{list.title}}</div>
+            </div>
+        </div>
+    }
+}

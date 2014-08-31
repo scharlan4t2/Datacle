@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-ng-app="list">
+    <head data-ng-controller="UserController">
+        <meta charset="utf-8" />
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        <link href="~/Content/Bootstrap/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/Content/Bootstrap/bootstrap-flatly.min.css" rel="stylesheet" />
+        <link href="~/Content/datacle.css" rel="stylesheet" />
+         <script src="~/Scripts/angular.js"></script>
+         <script src="~/JS/dtcService.js"></script>
+         <script src="~/JS/dtcController.js"></script>
+@*         <script type='text/javascript' 
+                 data-main="/JS/main" src="~/Scripts/require.js"></script> *@
+        <title>@ViewBag.Title - {{title}}</title>
+    </head>
+    <body>
+        <div id="container" class="container">
+            @RenderBody()
+        </div>
+        <footer>
+            <div class="container">
+                <div class="col-xs-12">
+                    <p>&copy; @DateTime.Now.Year - Harlan Brothers Engineering</p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="~/Scripts/jquery-1.9.0.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

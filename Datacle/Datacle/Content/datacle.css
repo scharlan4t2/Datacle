@@ -1,0 +1,28 @@
+﻿body {
+}
+
+#hdContainer, #container {
+    border: thin outset #C0C0C0;
+    background-color: #99CCFF;
+}
+
+.span2 {
+    border: thin outset #C0C0C0;
+    background-color: #D5EAFF;
+}
+
+
+.holder {
+    float:left;
+    top:-15px;
+    width:0;
+    height:0;
+    overflow:visible;
+    position:relative;
+    z-index:5;
+}
+
+.dragitem {
+    width:20px;
+    height:10px;
+}

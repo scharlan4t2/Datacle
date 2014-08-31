@@ -1,0 +1,167 @@
+﻿@{
+    ViewBag.Title = "User Views";
+}
+
+<div class="btn-success row" data-ng-click="setSectionVisible('user')">Users</div>
+<div class="row"  data-ng-show="isSectionVisible('user')"
+    data-ng-controller="ShareController">
+    <div class="holder">            
+    @{
+        ViewData["Type"] = "AddUser";
+        @Html.Partial("ShareWindow")
+    }
+    </div>
+    @{
+        ViewData["Type"] = "AddUserMenu";
+        @Html.Partial("ShareWindow")
+    }
+    <div data-ng-repeat="share in dtShare.getList()">
+    @{
+        ViewData["Type"] = "User";
+        @Html.Partial("ShareWindow");
+    }
+    </div>
+    <div data-ng-repeat="share in dtShare.getList()">
+    @{
+        ViewData["Type"] = "ShareList";
+        @Html.Partial("ShareWindow");
+        ViewData["Type"] = "SharedList";
+        @Html.Partial("ShareWindow");
+    }
+    </div>
+</div>
+
+<div class="btn-success row" data-ng-click="setSectionVisible('view')">Views</div>
+<div data-ng-controller="ViewController" 
+     data-ng-show="isSectionVisible('view')">
+    <div class="row">
+    <div class="holder">            
+        @{
+            ViewData["Type"] = "NewView";
+            @Html.Partial("ViewWindow");
+            ViewData["Type"] = "NewViewType";
+            @Html.Partial("ViewWindow");
+
+            ViewData["Type"] = "EditView";
+            @Html.Partial("ViewWindow");
+            ViewData["Type"] = "EditViewType";
+            @Html.Partial("ViewWindow");
+    }
+    </div>
+    @{ 
+        ViewData["Type"] = "NewViewTypeMenu";
+        @Html.Partial("ViewWindow");
+        ViewData["Type"] = "ViewType";
+        @Html.Partial("ViewWindow");
+    }
+    </div>
+    <div class="row">
+    @{ 
+        ViewData["Type"] = "NewViewMenu";
+        @Html.Partial("ViewWindow");   
+        ViewData["Type"] = "";
+        ViewData["Type"] = "Views";
+        @Html.Partial("ViewWindow");
+    }
+    </div>
+    <div data-ng-show="isSectionVisible('viewitems')">
+        <div data-ng-repeat="view in views">
+            <div class="row" data-ng-show="viewvisible[view.id]">
+            @{ 
+                ViewData["Type"] = "View";
+                @Html.Partial("ViewWindow");
+            }
+            </div>
+        </div> 
+    </div>
+</div>  
+<div data-ng-controller="ViewItemController"
+     data-ng-show="isSectionVisible('viewitems')">
+    <div class="row">
+        <div data-ng-repeat="view in dtView.getList() | orderBy:'sort'"
+             class="col-xs-{{dtView.getWidth(view)}} panel"
+             data-ng-show="dtViewItem.showObj(view) && dtView.showObj(view)">
+            <div class="holder">
+                @{
+                ViewData["Type"] = "AddViewItem";
+                @Html.Partial("ViewItemWindow");
+
+                    ViewData["Type"] = "EditViewItem";
+                @Html.Partial("ViewItemWindow");
+                }
+
+            </div>
+            @{
+                ViewData["Type"] = "List";
+                @Html.Partial("ViewItemWindow");
+                ViewData["Type"] = "ViewTitle";
+                @Html.Partial("ViewItemWindow");
+
+                ViewData["Type"] = "ViewItems";
+                @Html.Partial("ViewItemWindow");
+            }
+        </div>
+    </div>
+</div>
+
+<div class="btn-success row"  data-ng-click="setSectionVisible('list')">Lists</div>
+<div data-ng-controller="ListController"
+    data-ng-show="isSectionVisible('list')">
+    <div class="row">
+    <div class="holder">            
+        @{
+            ViewData["Type"] = "NewList";
+            @Html.Partial("ListWindow");
+            ViewData["Type"] = "NewListType";
+            @Html.Partial("ListWindow");
+
+            ViewData["Type"] = "EditList";
+            @Html.Partial("ListWindow");
+            ViewData["Type"] = "";
+            ViewData["Type"] = "EditListType";
+            @Html.Partial("ListWindow");
+        }
+    </div>
+    @{
+        ViewData["Type"] = "NewListTypeMenu";
+        @Html.Partial("ListWindow");
+
+        ViewData["Type"] = "ListType";
+        @Html.Partial("ListWindow");
+    }
+    </div>
+    <div class="row" data-ng-controller="ListItemController">
+    @{
+        ViewData["Type"] = "NewListMenu";
+        @Html.Partial("ListWindow");
+        
+        ViewData["Type"] = "Lists";
+        @Html.Partial("ListWindow");
+    }
+    </div>
+</div>
+
+<div data-ng-controller="ListItemController"
+    data-ng-show="isSectionVisible('listitems')">
+    <div data-ng-repeat="list in dtList.getList() | orderBy:'sort'"
+         class="col-xs-{{dtList.getWidth(list)}} panel"
+         data-ng-show="dtListItem.showObj(list) && dtList.showObj(list)">
+        <div class="holder">
+            @{
+                ViewData["Type"] = "AddListItem";
+                @Html.Partial("ListItemWindow");
+
+                    ViewData["Type"] = "EditListItem";
+                @Html.Partial("ListItemWindow");
+            }
+
+        </div>
+        @{
+            ViewData["Type"] = "ListTitle";
+            @Html.Partial("ListItemWindow");
+
+            ViewData["Type"] = "ListItems";
+            @Html.Partial("ListItemWindow");
+        }
+    </div>
+</div>
